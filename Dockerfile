@@ -19,6 +19,7 @@ COPY run.sh /xuexi/run.sh
 COPY start.sh /xuexi/start.sh 
 COPY supervisor.sh /xuexi/supervisor.sh
 
+RUN apt-get install -y libzbar0
 RUN pip install -r /xuexi/requirements.txt
 RUN cd /xuexi/; \
   wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_92.0.4515.159-1_amd64.deb; \
