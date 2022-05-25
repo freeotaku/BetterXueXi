@@ -1,5 +1,5 @@
 
-FROM python:3.7-slim
+FROM python:3.9-slim
 ARG usesource="https://hub.fastgit.xyz/freeotaku/TechXueXi.git"
 ARG usebranche="dev"
 ENV pullbranche=${usebranche}
