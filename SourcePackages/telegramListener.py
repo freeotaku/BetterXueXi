@@ -31,7 +31,7 @@ def send_welcome(message):
 def get_help(message):
     bot.reply_to(message,
                  "/help 获取帮助\n" +
-                 "/learn 开始学习, /learn 张三 指定账号学习\n" +
+                 "/learn 开始学习, /learn 名字 指定账号学习\n" +
                  "/list 获取账号列表\n" +
                  "/add 添加新账号\n" +
                  "/update 更新代码\n")
