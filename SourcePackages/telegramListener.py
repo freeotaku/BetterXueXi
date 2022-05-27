@@ -73,7 +73,7 @@ def callback_query(call):
 @bot.message_handler(commands=['list'], func=authorize)
 @exception_catcher(reserve_fun=bot.reply_to, fun_args=("Chrome 崩溃啦",), args_push=True)
 def list(message):
-    bot.send_chat_action(master, "typing")
+    bot.send_chat_action(message.chat.id, "typing")
     msg = pdl.get_user_list()
     bot.reply_to(message, msg)
 
@@ -81,7 +81,7 @@ def list(message):
 @bot.message_handler(commands=['add'], func=authorize)
 @exception_catcher(reserve_fun=bot.reply_to, fun_args=("Chrome 崩溃啦",), args_push=True)
 def add(message):
-    bot.send_chat_action(master, "typing")
+    bot.send_chat_action(message.chat.id, "typing")
     pdl.add_user()
 
 
