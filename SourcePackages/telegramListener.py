@@ -18,7 +18,7 @@ def authorize(self):
     """
     验证消息人，防止个人信息泄露
     """
-    return if str(self.from_user.id) in whitelist
+    return (str(self.from_user.id) in whitelist)
     #return str(self.from_user.id) == master
 
 
