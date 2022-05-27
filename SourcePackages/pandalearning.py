@@ -90,9 +90,9 @@ def start_learn(uid, name):
     if TechXueXi_mode in ["1", "3"]:
 
         article_thread = threads.MyThread(
-            "文章学 xi ", article, uid, cookies, article_index, scores, lock=lock)
+            "文章学习 ", article, uid, cookies, article_index, scores, lock=lock)
         video_thread = threads.MyThread(
-            "视频学 xi ", video, uid, cookies, video_index, scores, lock=lock)
+            "视频学习 ", video, uid, cookies, video_index, scores, lock=lock)
         article_thread.start()
         video_thread.start()
         article_thread.join()
@@ -135,7 +135,7 @@ def start(nick_name=None):
         try:
             if nick_name == None or nick_name == user_list[i][1] or nick_name == user_list[i][0]:
                 _learn = threads.MyThread(
-                    user_list[i][0]+"开始学xi", start_learn, user_list[i][0], user_list[i][1], lock=Single)
+                    user_list[i][0]+"开始学习", start_learn, user_list[i][0], user_list[i][1], lock=Single)
                 _learn.start()
         except:
             gl.pushprint("学习页面崩溃，学习终止")
@@ -173,7 +173,7 @@ def get_all_user_name():
 
 def add_user(chat_id=None):
     get_argv()
-    gl.pushprint("请登录（登录方式请仔细阅读文档，如果觉得这是让你下载，就是你没仔细读文档）：", chat_id=chat_id)
+    gl.pushprint("请登录，点击下面链接即可登录，或用尽量另一个装有学习强国的手机扫码：", chat_id=chat_id)
     driver_login = Mydriver()
     cookies = driver_login.login(chat_id)
     driver_login.quit()
