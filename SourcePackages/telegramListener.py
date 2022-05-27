@@ -10,6 +10,7 @@ import gc #资源回收
 pushmode = get_env_or_cfg("addition.Pushmode", "Pushmode", "0")
 token = get_env_or_cfg("addition.telegram.bot_token", "AccessToken", "")
 master = get_env_or_cfg("addition.telegram.user_id", "Secret", "")
+whitelist = get_env_or_cfg("addition.telegram.user_ids", "Secrets", "")
 bot = telebot.TeleBot(token)
 
 
@@ -17,7 +18,8 @@ def authorize(self):
     """
     验证消息人，防止个人信息泄露
     """
-    return str(self.from_user.id) == master
+    return if str(self.from_user.id) in whitelist
+    #return str(self.from_user.id) == master
 
 
 @bot.message_handler(commands=['start'], func=authorize)
