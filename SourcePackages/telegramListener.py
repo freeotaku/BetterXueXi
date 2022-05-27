@@ -24,7 +24,7 @@ def authorize(self):
 
 @bot.message_handler(commands=['start'], func=authorize)
 def send_welcome(message):
-    bot.reply_to(message, "一起来学xi吧！\n输入 /help 获取帮助。")
+    bot.reply_to(message, "一起来学习吧！\n输入 /help 获取帮助。")
 
 
 @bot.message_handler(commands=['help'], func=authorize)
@@ -54,7 +54,7 @@ def learn(message):
                 boards.append(InlineKeyboardButton(name, callback_data=name))
             boards.append(InlineKeyboardButton("全部", callback_data="ALLUSER"))
             markup.add(*boards)
-            bot.send_message(message.chat.id, "请选择开始学xi的账号：",
+            bot.send_message(message.chat.id, "请选择开始学习的账号：",
                              reply_markup=markup)
 
 
@@ -109,7 +109,7 @@ def rep_update(message):
 
 def polling():
     try:
-        bot.polling(non_stop=False, timeout=120)
+        bot.polling(non_stop=True, timeout=120)
     except Exception as e:
         print("telegtram listener reconnecting...")
     finally: #资源回收
@@ -129,5 +129,5 @@ if __name__ == '__main__':
             except Exception as e:
                 apihelper.proxy = {}
                 print("代理请求异常，已关闭代理:"+str(e))
-        bot.send_message(master, "学xi助手上线啦，快来学xi吧")
+        bot.send_message(master, "学习机器人上线啦！")
         polling()
