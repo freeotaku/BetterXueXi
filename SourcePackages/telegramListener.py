@@ -107,7 +107,7 @@ def rep_update(message):
 
 def polling():
     try:
-        bot.polling(non_stop=True, timeout=120)
+        bot.polling(non_stop=False, timeout=120)
     except Exception as e:
         print("telegtram listener reconnecting...")
     finally: #资源回收
