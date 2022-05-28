@@ -82,7 +82,7 @@ def list(message):
 @exception_catcher(reserve_fun=bot.reply_to, fun_args=("Chrome 崩溃啦",), args_push=True)
 def add(message):
     bot.send_chat_action(message.chat.id, "typing")
-    pdl.add_user()
+    pdl.add_user(chat_id=message.chat.id)
 
 
 @bot.message_handler(commands=['update'], func=authorize)
