@@ -16,8 +16,12 @@ class TelegarmHandler:
                 apihelper.proxy = {}
                 print("代理请求异常，已关闭代理:"+str(e))
 
-    def send_message(self, message):
-        self.bot.send_message(self.master, message)
+    def send_message(self, message, chat_id=None):
+        if chat_id == None:
+            chat_id = self.master
+        self.bot.send_message(chat_id, message)
 
-    def send_qrurl(self, url):
-        self.bot.send_photo(self.master, url)
+    def send_qrurl(self, url, chat_id=None):
+        if chat_id == None:
+            chat_id = self.master
+        self.bot.send_photo(chat_id, url)

@@ -250,7 +250,7 @@ class Mydriver:
     def sendmsg(self, chat_id=None):
         qcbase64 = self.getQRcode()
         # 发送二维码
-        gl.send_qrbase64(qcbase64)
+        gl.send_qrbase64(qcbase64, chat_id=chat_id)
         # 发送链接
         qrurl = ''
         if gl.scheme:

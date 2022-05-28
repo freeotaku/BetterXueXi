@@ -112,13 +112,13 @@ def pushprint(text, chat_id=None):
             push = PlusPushHandler(accesstoken, topic)
             push.fttext(text)
         elif pushmode == "5":
-            tg_bot.send_message(text)
+            tg_bot.send_message(text, chat_id=chat_id)
         elif pushmode == "6":
             web.add_message(text)
     print(text)
 
 
-def send_qrbase64(qcbase64):
+def send_qrbase64(qcbase64, chat_id=None):
     """
     推送登录二维码
     """
@@ -131,6 +131,6 @@ def send_qrbase64(qcbase64):
     elif pushmode == "5" and cfg_get("addition.telegram.send_qrimage", 0) == 1:
         img_b64decode = base64.b64decode(
             qcbase64[qcbase64.index(';base64,')+8:])
-        tg_bot.send_qrurl(Image.open(io.BytesIO(img_b64decode)))
+        tg_bot.send_qrurl(Image.open(io.BytesIO(img_b64decode)), chat_id=chat_id)
     elif pushmode == "6":
         web.add_qrurl(qcbase64)
