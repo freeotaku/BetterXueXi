@@ -86,7 +86,11 @@ def start_learn(uid, name):
     video_index = 1  # user.get_video_index(uid)
 
     total, scores = show_score(cookies)
-    gl.pushprint(output, chat_id=uid)
+    try:
+        gl.pushprint(output, chat_id=uid)
+    except Exception as e:
+        print(str(e))
+        pass
     if TechXueXi_mode in ["1", "3"]:
 
         article_thread = threads.MyThread(
