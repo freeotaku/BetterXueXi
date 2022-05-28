@@ -19,9 +19,16 @@ class TelegarmHandler:
     def send_message(self, message, chat_id=None):
         if chat_id == None:
             chat_id = self.master
-        self.bot.send_message(chat_id, message)
+        try:
+            self.bot.send_message(chat_id, message)
+        except Exception as e:
+            print(str(e))
+            print(message)
 
     def send_qrurl(self, url, chat_id=None):
         if chat_id == None:
             chat_id = self.master
-        self.bot.send_photo(chat_id, url)
+        try:
+            self.bot.send_photo(chat_id, url)
+        except Exception as e:
+            print(str(e))
