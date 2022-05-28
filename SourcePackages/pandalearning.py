@@ -118,9 +118,12 @@ def start_learn(uid, name):
         user.refresh_all_cookies(live_time=11.90)
 
     seconds_used = int(time.time() - start_time)
-    gl.pushprint(name+" 总计用时 " + str(math.floor(seconds_used / 60)) +
+    try:
+        gl.pushprint(name+" 总计用时 " + str(math.floor(seconds_used / 60)) +
                  " 分 " + str(seconds_used % 60) + " 秒", chat_id=uid)
-    show_scorePush(cookies, chat_id=uid)
+        show_scorePush(cookies, chat_id=uid)
+    except Exception as e:
+        print(str(e))
     try:
         user.shutdown(stime)
     except Exception as e:
