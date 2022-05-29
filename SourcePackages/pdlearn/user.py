@@ -75,7 +75,7 @@ def get_user_status():
                         '''\n    "#-说明2":"程序会自动读写该文件。",''' + \
                         '''\n    "#-说明3":"如不熟悉，请勿自行修改内容。错误修改可能导致程序崩溃",''' + \
                         '''\n    "#____________________________________________________________":"",''' + \
-                        '''\n    "last_userId":0,\n    "userId_mapping":{\n        "0":"default"\n    }''' + \
+                        '''\n    "last_userId":0,\n    "userId_mapping":{\n        "0":"default"\n    },''' + \
                         '''\n    "uid_chatid":{\n        "0":"0"\n    } \n}'''
     status = file.get_json_data("user/user_status.json", template_json_str)
     save_user_status(status)
