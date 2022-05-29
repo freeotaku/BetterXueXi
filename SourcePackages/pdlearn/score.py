@@ -1,5 +1,5 @@
 from pickle import TRUE
-from SourcePackages.pdlearn.user import get_chatid, get_uid_by_cookie
+
 from pdlearn import globalvar
 import requests
 from requests.cookies import RequestsCookieJar
