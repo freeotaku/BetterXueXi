@@ -69,7 +69,7 @@ def get_score(cookies):
         globalvar.pushprint("cookie过期，请重新登录", chat_id)
         if chat_id:
             remove_cookie(chat_id)
-        raise
+        #raise
 
     total = int(json.loads(total_json)["data"]["score"])
     #userId = json.loads(total_json)["data"]["userId"]
