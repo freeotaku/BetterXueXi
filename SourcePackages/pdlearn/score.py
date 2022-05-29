@@ -1,4 +1,5 @@
 from pickle import TRUE
+from SourcePackages.pdlearn.user import get_chatid, get_uid_by_cookie
 from pdlearn import globalvar
 import requests
 from requests.cookies import RequestsCookieJar
@@ -54,8 +55,7 @@ def show_scorePush(cookies, chat_id=None):
     return total, scores
 
 
-def get_score(cookies):
-    chat_id = None
+def get_score(cookies, chat_id=None, uid=None):
     th_name = threading.current_thread().name
     if "开始学xi" in th_name:
         chat_id = th_name[:th_name.index("开始学xi")]
@@ -66,10 +66,13 @@ def get_score(cookies):
     total_json = requests.get("https://pc-api.xuexi.cn/open/api/score/get", cookies=jar,
                               headers={'Cache-Control': 'no-cache'}).content.decode("utf8")
     if not json.loads(total_json)["data"]:
-        globalvar.pushprint("cookie过期，请重新登录", chat_id)
+        # Chat_id 在这里是 uid
+        tg_chat_id = get_chatid(chat_id)
+        globalvar.pushprint("cookie过期，请重新登录", tg_chat_id)
         if chat_id:
             remove_cookie(chat_id)
-        #raise
+            # Chat_id 在这里是 uid
+        raise
 
     total = int(json.loads(total_json)["data"]["score"])
     #userId = json.loads(total_json)["data"]["userId"]
