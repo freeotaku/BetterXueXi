@@ -189,7 +189,7 @@ def add_user(chat_id=None):
         return
     user.save_cookies(cookies)
     uid = user.get_userId(cookies)
-    user_fullname = user.get_fullname(uid)
+    user_fullname = user.get_fullname(uid, tg_chat_id=chat_id)
     user.update_last_user(uid)
     gl.pushprint(user_fullname+"登录成功", chat_id=chat_id)
 

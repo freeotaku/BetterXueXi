@@ -18,17 +18,17 @@ def get_userId(cookies):
     userId, total, scores, userName = score.get_score(cookies)
     return userId
 
-def get_chatid(uid):
+def get_tgchatid(uid):
     status = get_user_status()
     try:
-        return status["uid_chatid"][uid]
+        return status["uid_tgchatid"][uid]
     except Exception as e:
-        print("Faild to get chat_id by uid", e)
+        print("Faild to get tg_chat_id by uid", e)
         return 0
 
 
 @exception_catcher(reserve_value="_")
-def get_fullname(userId, chat_id=None):
+def get_fullname(userId, chat_id=None, tg_chat_id=None):
     fullname = "_"
     nickname = ""
     status = get_user_status()
@@ -52,7 +52,7 @@ def get_fullname(userId, chat_id=None):
         #     else:
         #         print("输入不符合要求，输入内容只能为：英文字母、数字、下划线、中文。")
         fullname = str(userId) + '_' + userName
-        save_fullname(fullname, chat_id=chat_id)
+        save_fullname(fullname, tg_chat_id=tg_chat_id)
     return fullname
 
 
@@ -61,12 +61,12 @@ def get_nickname(userId):
     return get_fullname(userId).split('_', 1)[1]
 
 
-def save_fullname(fullname, chat_id=None):
+def save_fullname(fullname, tg_chat_id=None):
     status = get_user_status()
     userId = fullname.split('_', 1)[0]
     nickname = fullname.split('_', 1)[1]
     status["userId_mapping"][userId] = nickname
-    status["uid_chatid"][userId] = chat_id
+    status["uid_chatid"][userId] = tg_chat_id
     save_user_status(status)
 
 
@@ -76,7 +76,7 @@ def get_user_status():
                         '''\n    "#-说明3":"如不熟悉，请勿自行修改内容。错误修改可能导致程序崩溃",''' + \
                         '''\n    "#____________________________________________________________":"",''' + \
                         '''\n    "last_userId":0,\n    "userId_mapping":{\n        "0":"default"\n    },''' + \
-                        '''\n    "uid_chatid":{\n        "0":"0"\n    } \n}'''
+                        '''\n    "uid_tgchatid":{\n        "0":"0"\n    } \n}'''
     status = file.get_json_data("user/user_status.json", template_json_str)
     save_user_status(status)
     # print(status)
@@ -289,7 +289,7 @@ def refresh_all_cookies(live_time=8.0, display_score=False):  # cookie有效时�
         for cookie in valid_cookies:
             user_id = get_userId(cookie)
             print(color.blue(get_fullname(user_id)) + " 的今日得分：")
-            total, scores = score.show_score(cookie)
+            total, scores = score.show_score(cookie, username=get_fullname(user_id))
             if str(user_id) in msgInfo:
                 msgInfo[str(user_id)] += " 今日得分："+str(scores["today"])
     return msgInfo

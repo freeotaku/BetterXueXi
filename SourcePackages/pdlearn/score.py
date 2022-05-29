@@ -7,6 +7,7 @@ import json
 from pdlearn import color
 from pdlearn import file
 from pdlearn.const import const
+from pdlearn import user
 import threading
 
 
@@ -23,9 +24,9 @@ def handle_score_color(score, full_score, colorful=True):
         return str(score)+" / "+str(full_score)
 
 
-def show_score(cookies):
-    userId, total, scores, userName = get_score(cookies)
-    print(userName+" 当前学 xi 总积分：" + str(total) +
+def show_score(cookies, tg_chat_id=None, username=None):
+    userId, total, scores, userName = get_score(cookies, tg_chat_id=tg_chat_id, username=username)
+    print(userName+" 当前学习总积分：" + str(total) +
           "\t" + "今日得分：" + str(scores["today"]))
     print("阅读文章:", handle_score_color(scores["article_num"], const.article_num_all), ",",
           "观看视频:", handle_score_color(
@@ -55,7 +56,7 @@ def show_scorePush(cookies, chat_id=None):
     return total, scores
 
 
-def get_score(cookies, tg_chat_id=None, uid=None):
+def get_score(cookies, tg_chat_id=None, uid=None, username=None):
     th_name = threading.current_thread().name
     if "开始学xi" in th_name:
         chat_id = th_name[:th_name.index("开始学xi")]
@@ -66,8 +67,8 @@ def get_score(cookies, tg_chat_id=None, uid=None):
     total_json = requests.get("https://pc-api.xuexi.cn/open/api/score/get", cookies=jar,
                               headers={'Cache-Control': 'no-cache'}).content.decode("utf8")
     if not json.loads(total_json)["data"]:
-        # Chat_id 在这里是 uid
-        globalvar.pushprint("cookie过期，请重新登录", tg_chat_id)
+        # Chat_id 在这里是 uid, tg_chat_id 是添加者的 id，所以在这里发送到原账号
+        globalvar.pushprint("{} cookie过期，请重新登录".format(username), tg_chat_id)
         if chat_id:
             remove_cookie(chat_id)
             # Chat_id 在这里是 uid
