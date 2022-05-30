@@ -66,7 +66,7 @@ def save_fullname(fullname, tg_chat_id=None):
     userId = fullname.split('_', 1)[0]
     nickname = fullname.split('_', 1)[1]
     status["userId_mapping"][userId] = nickname
-    status["uid_chatid"][userId] = tg_chat_id
+    status["uid_tgchatid"][userId] = tg_chat_id
     save_user_status(status)
 
 
