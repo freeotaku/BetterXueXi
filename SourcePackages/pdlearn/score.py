@@ -24,8 +24,10 @@ def handle_score_color(score, full_score, colorful=True):
         return str(score)+" / "+str(full_score)
 
 
-def show_score(cookies, tg_chat_id=None, username=None):
+def show_score(cookies, printing=True, tg_chat_id=None, username=None):
     userId, total, scores, userName = get_score(cookies, tg_chat_id=tg_chat_id, username=username)
+    if not printing:
+        return total, scores
     print(userName+" 当前学习总积分：" + str(total) +
           "\t" + "今日得分：" + str(scores["today"]))
     print("阅读文章:", handle_score_color(scores["article_num"], const.article_num_all), ",",

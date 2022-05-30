@@ -51,15 +51,16 @@ def learn(message):
             markup = InlineKeyboardMarkup()
             boards = []
             for name in names:
-                boards.append(InlineKeyboardButton(name, callback_data=name))
-            boards.append(InlineKeyboardButton("全部", callback_data="ALLUSER"))
+                boards.append(InlineKeyboardButton(name, callback_data='/learn'+name))
+            boards.append(InlineKeyboardButton("全部", callback_data='/learn'+"ALLUSER"))
             markup.add(*boards)
             bot.send_message(message.chat.id, "请选择开始学习的账号：",
                              reply_markup=markup)
 
 
-@bot.callback_query_handler(func=lambda call: True)
+@bot.callback_query_handler(func=lambda call: '/learn' in call.data)
 def callback_query(call):
+    call.data = call.data[6:]
     bot.answer_callback_query(call.id, "开始学习")
     bot.delete_message(call.message.chat.id, call.message.id)
     if call.data == "ALLUSER":
@@ -68,6 +69,37 @@ def callback_query(call):
     else:
         bot.send_message(call.message.chat.id, call.data+" 开始学习")
         pdl.start(call.data)
+
+@bot.message_handler(commands=['screenshot'], func=authorize)
+@exception_catcher(reserve_fun=bot.reply_to, fun_args=("学习崩溃啦",), args_push=True)
+def screenshot(message):
+    params = message.text.split(" ")
+    if len(params) > 1:
+        pdl.start(params[1] if params[1] else None)
+    else:
+        names = pdl.get_all_user_name()
+        if len(names) <= 1:
+            pdl.start(None)
+        else:
+            markup = InlineKeyboardMarkup()
+            boards = []
+            for name in names:
+                boards.append(InlineKeyboardButton(name, callback_data='/screenshot'+name))
+            #boards.append(InlineKeyboardButton("全部", callback_data="ALLUSER"))
+            markup.add(*boards)
+            bot.send_message(message.chat.id, "请选择生成截图的账号：",
+                             reply_markup=markup)
+
+
+@bot.callback_query_handler(func=lambda call: '/screenshot' in call.data)
+def callback_query(call):
+    call.data = call.data[11:]
+    bot.delete_message(call.message.chat.id, call.message.id)
+    bot.answer_callback_query(call.id, "开始查询分数")
+    bot.send_chat_action(call.message.chat.id, "typing")
+    bot.send_message(call.message.chat.id, 
+                    "截图生成还没做好，{} 的总分是：{}".format(call.data, pdl.get_totalscore_byname(call.data)))
+    
 
 
 @bot.message_handler(commands=['list'], func=authorize)

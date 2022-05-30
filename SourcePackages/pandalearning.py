@@ -169,6 +169,11 @@ def get_user_list():
         msg = "cookie全部过期，请重新登录"
     return msg
 
+def get_totalscore_byname(name):
+    uid = user.get_uid_byname(name)
+    cookies = user.get_cookie(uid)
+    total, _ = score.show_score(cookies)
+    return total
 
 def get_all_user_name():
     user_list = user.list_user(printing=False)
