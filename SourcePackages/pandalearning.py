@@ -120,8 +120,8 @@ def start_learn(uid, name):
     seconds_used = int(time.time() - start_time)
     try:
         gl.pushprint(name+" 总计用时 " + str(math.floor(seconds_used / 60)) +
-                 " 分 " + str(seconds_used % 60) + " 秒", chat_id=uid)
-        show_scorePush(cookies, chat_id=uid)
+                 " 分 " + str(seconds_used % 60) + " 秒", chat_id=user.get_tgchatid(uid))
+        show_scorePush(cookies, chat_id=uid, tg_chat_id=user.get_tgchatid(uid))
     except Exception as e:
         print(str(e))
     try:

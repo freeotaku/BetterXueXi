@@ -24,7 +24,7 @@ def handle_score_color(score, full_score, colorful=True):
         return str(score)+" / "+str(full_score)
 
 
-def show_score(cookies, printing=True, uid=None, tg_chat_id=None, username=None):
+def show_score(cookies, printing=True, uid=None, chat_id=None, tg_chat_id=None, username=None):
     userId, total, scores, userName = get_score(cookies, tg_chat_id=tg_chat_id, username=username)
     if not printing:
         return total, scores
@@ -44,8 +44,10 @@ def show_score(cookies, printing=True, uid=None, tg_chat_id=None, username=None)
     return total, scores
 
 
-def show_scorePush(cookies, tg_chat_id=None):
+def show_scorePush(cookies, chat_id=None, tg_chat_id=None):
     userId, total, scores, userName = get_score(cookies)
+    # Push to telegram client:
+    chat_id = tg_chat_id
     globalvar.pushprint(userName+" 当前学 xi 总积分：" + str(total) + "\t" + "今日得分：" + str(scores["today"]) +
                         "\n阅读文章:" + handle_score_color(scores["article_num"], const.article_num_all, False) + "," +
                         "观看视频:" + handle_score_color(scores["video_num"], const.video_num_all, False) + "," +
