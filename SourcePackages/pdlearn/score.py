@@ -24,7 +24,7 @@ def handle_score_color(score, full_score, colorful=True):
         return str(score)+" / "+str(full_score)
 
 
-def show_score(cookies, printing=True, tg_chat_id=None, username=None):
+def show_score(cookies, printing=True, uid=None, tg_chat_id=None, username=None):
     userId, total, scores, userName = get_score(cookies, tg_chat_id=tg_chat_id, username=username)
     if not printing:
         return total, scores
@@ -44,7 +44,7 @@ def show_score(cookies, printing=True, tg_chat_id=None, username=None):
     return total, scores
 
 
-def show_scorePush(cookies, chat_id=None):
+def show_scorePush(cookies, tg_chat_id=None):
     userId, total, scores, userName = get_score(cookies)
     globalvar.pushprint(userName+" 当前学 xi 总积分：" + str(total) + "\t" + "今日得分：" + str(scores["today"]) +
                         "\n阅读文章:" + handle_score_color(scores["article_num"], const.article_num_all, False) + "," +
@@ -69,7 +69,10 @@ def get_score(cookies, tg_chat_id=None, uid=None, username=None):
     total_json = requests.get("https://pc-api.xuexi.cn/open/api/score/get", cookies=jar,
                               headers={'Cache-Control': 'no-cache'}).content.decode("utf8")
     if not json.loads(total_json)["data"]:
+        uid = chat_id
         # Chat_id 在这里是 uid, tg_chat_id 是添加者的 id，所以在这里发送到原账号
+        tg_chat_id = user.get_tgchatid(uid)
+        username = user.get_fullname(uid)
         globalvar.pushprint("{} cookie过期，请重新登录".format(username), tg_chat_id)
         if chat_id:
             remove_cookie(chat_id)

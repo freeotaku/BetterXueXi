@@ -148,13 +148,14 @@ def start(nick_name=None):
             gl.pushprint("学习页面崩溃，学习终止")
 
 
+
 def get_my_score(uid):
     get_argv()
     user.refresh_all_cookies()
     cookies = user.get_cookie(uid)
     if not cookies:
         return False
-    show_scorePush(cookies, chat_id=uid)
+    show_scorePush(cookies)
     return True
 
 
@@ -174,6 +175,14 @@ def get_totalscore_byname(name):
     cookies = user.get_cookie(uid)
     total, _ = score.show_score(cookies)
     return total
+
+def make_screenshot(name):
+    total = get_totalscore_byname(name)
+    ranklist = ['一心一意', '再接再厉', '三省吾身', '名扬四海'
+    '学富五车', '六韬三略', '七步才华', '才高八斗', '九天揽月', '十年磨剑']
+    highest = 20000
+    rank = ranklist[int(total/highest*10)]
+    diandiantong = int(total/4)
 
 def get_all_user_name():
     user_list = user.list_user(printing=False)
