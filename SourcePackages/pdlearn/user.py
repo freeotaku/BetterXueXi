@@ -28,7 +28,7 @@ def get_tgchatid(uid):
 
 
 @exception_catcher(reserve_value="_")
-def get_fullname(userId, chat_id=None, tg_chat_id=None):
+def get_fullname(userId, chat_id=None):
     fullname = "_"
     nickname = ""
     status = get_user_status()
@@ -52,7 +52,7 @@ def get_fullname(userId, chat_id=None, tg_chat_id=None):
         #     else:
         #         print("输入不符合要求，输入内容只能为：英文字母、数字、下划线、中文。")
         fullname = str(userId) + '_' + userName
-        save_fullname(fullname, tg_chat_id=tg_chat_id)
+        save_fullname(fullname)
     return fullname
 
 
@@ -61,12 +61,12 @@ def get_nickname(userId):
     return get_fullname(userId).split('_', 1)[1]
 
 
-def save_fullname(fullname, tg_chat_id=None):
+def save_fullname(fullname):
     status = get_user_status()
     userId = fullname.split('_', 1)[0]
     nickname = fullname.split('_', 1)[1]
     status["userId_mapping"][userId] = nickname
-    status["uid_tgchatid"][userId] = tg_chat_id
+    #status["uid_tgchatid"][userId] = tg_chat_id
     save_user_status(status)
 
 
@@ -83,9 +83,11 @@ def get_user_status():
     return status
 
 
-def update_last_user(userId):
+def update_last_user(userId, tg_chat_id=None):
     status = get_user_status()
     status["last_userId"] = userId
+    if not tg_chat_id == None:
+        status["uid_tgchatid"][userId] = tg_chat_id
     save_user_status(status)
 
 
@@ -229,7 +231,7 @@ def check_default_user_cookie():
 
 
 # 保活。执行会花费一定时间，全新cookies的有效时间是12h
-def refresh_all_cookies(live_time=8.0, display_score=False):  # cookie有效时间保持在live_time以上
+def refresh_all_cookies(live_time=7.0, display_score=False):  # cookie有效时间保持在live_time以上
     msgInfo = {}
     template_json_str = '''{}'''
     cookies_json_obj = file.get_json_data(
@@ -277,6 +279,8 @@ def refresh_all_cookies(live_time=8.0, display_score=False):  # cookie有效时�
                             if 'name' in j and j["name"] == "token":
                                 found_token = True
                         if not found_token:
+                            # 通知添加者账号过期
+                            gl.pushprint("{} 掉线啦，需要重新登录".format(get_fullname(uid)), get_tgchatid(uid))
                             remove_cookie(uid)  # cookie不含token则无效，删除cookie
                         else:
                             save_cookies(new_cookies)
