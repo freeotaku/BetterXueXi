@@ -10,6 +10,7 @@ from sys import argv
 from pdlearn import score
 from pdlearn import file
 from pdlearn import color
+from pdlearn import globalvar as gl
 from pdlearn.mydriver import Mydriver
 from pdlearn.exp_catch import exception_catcher
 
