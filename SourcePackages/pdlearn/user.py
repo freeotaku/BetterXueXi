@@ -22,8 +22,7 @@ def get_userId(cookies):
 def get_tgchatid(uid):
     status = get_user_status()
     try:
-        print('UID: {}'.format(status["uid_tgchatid"][uid]))
-        return status["uid_tgchatid"][uid]
+        return status["uid_chatid"][uid]
     except Exception as e:
         print("Faild to get tg_chat_id by uid", e)
         return 0
