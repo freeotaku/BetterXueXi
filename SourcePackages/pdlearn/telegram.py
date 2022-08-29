@@ -1,3 +1,4 @@
+from traceback import print_tb
 import telebot
 from telebot import apihelper
 from pdlearn.config import cfg_get
@@ -22,8 +23,9 @@ class TelegarmHandler:
         try:
             self.bot.send_message(chat_id, message)
         except Exception as e:
+            print('没能发送tg消息，错误如下：')
             print(str(e))
-            print(message)
+            print('应该发送的信息：{}, UID: {}'.format(message, chat_id))
 
     def send_qrurl(self, url, chat_id=None):
         if chat_id == None:
@@ -31,4 +33,6 @@ class TelegarmHandler:
         try:
             self.bot.send_photo(chat_id, url)
         except Exception as e:
+            print('没能发送QRCODE，错误如下：')
             print(str(e))
+            print('UID: {}'.format(message, chat_id))
