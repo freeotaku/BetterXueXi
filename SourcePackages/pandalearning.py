@@ -64,7 +64,8 @@ def start_learn(uid, name):
         else:
             msg = name+" 登录信息失效，请重新扫码"
         # print(msg)
-        gl.pushprint(msg, chat_id=uid)
+        chat_id = user.get_tgchatid(uid)
+        gl.pushprint(msg, chat_id=chat_id)
         if gl.pushmode == "6":
             gl.pushprint("web模式跳过自动获取二维码,请手动点击添加按钮", chat_id=uid)
             print(color.red("【#️⃣】 若直接退出请运行：webserverListener.py"))
