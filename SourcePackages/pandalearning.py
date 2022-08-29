@@ -88,7 +88,8 @@ def start_learn(uid, name):
 
     total, scores = show_score(cookies)
     try:
-        gl.pushprint(output, chat_id=uid)
+        chat_id = user.get_tgchatid(uid)
+        gl.pushprint(output, chat_id=chat_id)
     except Exception as e:
         print(str(e))
         pass
@@ -122,7 +123,7 @@ def start_learn(uid, name):
     try:
         gl.pushprint(name+" 总计用时 " + str(math.floor(seconds_used / 60)) +
                  " 分 " + str(seconds_used % 60) + " 秒", chat_id=user.get_tgchatid(uid))
-        show_scorePush(cookies, chat_id=uid, tg_chat_id=user.get_tgchatid(uid))
+        show_scorePush(cookies, chat_id=chat_id, tg_chat_id=user.get_tgchatid(uid))
     except Exception as e:
         print(str(e))
     try:
